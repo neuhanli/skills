@@ -1,53 +1,53 @@
-# 配置说明
+# Configuration Guide
 
-## 腾讯云 API 密钥配置
+## Tencent Cloud API Credentials Configuration
 
-在使用 TencentCloud-HotSearch-skill 之前，您需要配置腾讯云联网搜索 API（SearchPro）的密钥。腾讯云联网搜索 API 使用 **SecretId** 和 **SecretKey** 进行认证。
+Before using TencentCloud-HotSearch-skill, you need to configure the credentials for Tencent Cloud Online Search API (SearchPro). The API uses **SecretId** and **SecretKey** for authentication.
 
-**API 信息:**
-- **接口域名**: wsa.tencentcloudapi.com
-- **接口版本**: 2025-05-08
-- **接口名称**: SearchPro
+**API Information:**
+- **Endpoint Domain**: wsa.tencentcloudapi.com
+- **API Version**: 2025-05-08
+- **API Name**: SearchPro
 
-## 获取腾讯云 API 密钥
+## Obtaining Tencent Cloud API Credentials
 
-### 步骤 1: 注册/登录腾讯云账户
+### Step 1: Register/Login to Tencent Cloud Account
 
-1. 访问 [腾讯云官网](https://cloud.tencent.com/)
-2. 点击右上角的"注册"或"登录"
-3. 如果是新用户，完成注册流程
-4. 登录您的腾讯云账户
+1. Visit [Tencent Cloud Official Website](https://cloud.tencent.com/)
+2. Click "Register" or "Login" in the top right corner
+3. If you're a new user, complete the registration process
+4. Log in to your Tencent Cloud account
 
-### 步骤 2: 开通联网搜索服务
+### Step 2: Activate Online Search Service
 
-1. 登录后，访问 [腾讯云控制台](https://console.cloud.tencent.com/)
-2. 在搜索框中输入"联网搜索"
-3. 点击进入"联网搜索"产品页面
-4. 点击"立即开通"按钮
-5. 阅读并同意服务协议
-6. 完成开通流程
+1. After logging in, visit [Tencent Cloud Console](https://console.cloud.tencent.com/)
+2. Enter "Online Search" in the search box
+3. Click to enter the "Online Search" product page
+4. Click the "Activate Now" button
+5. Read and agree to the service agreement
+6. Complete the activation process
 
-### 步骤 3: 获取 API 密钥
+### Step 3: Obtain API Credentials
 
-#### 获取 SecretId 和 SecretKey
+#### Get SecretId and SecretKey
 
-1. 访问 [腾讯云访问管理控制台](https://console.cloud.tencent.com/cam/capi)
-2. 点击"新建密钥"按钮
-3. 系统会生成一对密钥：
-   - **SecretId**: 密钥 ID（格式类似：AKIDxxxxxxxxxxxxxxxx）
-   - **SecretKey**: 密钥 Key（格式类似：xxxxxxxxxxxxxxxx）
-4. **重要**: 请立即保存这两个密钥，SecretKey 只显示一次！
+1. Visit [Tencent Cloud Access Management Console](https://console.cloud.tencent.com/cam/capi)
+2. Click the "Create Key" button
+3. The system will generate a pair of credentials:
+   - **SecretId**: Key ID (format: AKIDxxxxxxxxxxxxxxxx)
+   - **SecretKey**: Key (format: xxxxxxxxxxxxxxxx)
+4. **Important**: Please save these two credentials immediately, SecretKey is only displayed once!
 
-#### 通过联网搜索产品获取
+#### Obtain via Online Search Product
 
-1. 进入 [联网搜索控制台](https://console.cloud.tencent.com/ais)
-2. 在左侧导航栏选择"API 密钥管理"
-3. 点击"创建密钥"
-4. 复制生成的 SecretId 和 SecretKey
+1. Enter [Online Search Console](https://console.cloud.tencent.com/ais)
+2. Select "API Key Management" in the left navigation bar
+3. Click "Create Key"
+4. Copy the generated SecretId and SecretKey
 
-## 配置文件说明
+## Configuration File
 
-### config.json 文件结构
+### config.json Structure
 
 ```json
 {
@@ -57,27 +57,27 @@
 }
 ```
 
-### 配置参数说明
+### Configuration Parameters
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| secret_id | string | 是 | 腾讯云 API 密钥 SecretId |
-| secret_key | string | 是 | 腾讯云 API 密钥 SecretKey |
-| output_dir | string | 否 | 默认输出目录，默认为 ./output |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| secret_id | string | Yes | Tencent Cloud API SecretId |
+| secret_key | string | Yes | Tencent Cloud API SecretKey |
+| output_dir | string | No | Default output directory, defaults to ./output |
 
-## 配置步骤
+## Configuration Steps
 
-### 1. 创建配置文件
+### 1. Create Configuration File
 
-如果 `config.json` 文件不存在，请从示例文件复制：
+If the `config.json` file does not exist, copy it from the example file:
 
 ```bash
 cp config.example.json config.json
 ```
 
-### 2. 编辑配置文件
+### 2. Edit Configuration File
 
-使用文本编辑器打开 `config.json`，填入您的 API 密钥：
+Open `config.json` with a text editor and fill in your API credentials:
 
 ```json
 {
@@ -87,61 +87,65 @@ cp config.example.json config.json
 }
 ```
 
-**注意事项：**
-- 请确保 JSON 格式正确，不要有多余的逗号
-- SecretId 和 SecretKey 需要用引号包裹
-- 不要在配置文件中添加注释（JSON 不支持注释）
-- `output_dir` 指定默认输出目录，如果未指定则使用 `./output`
+**Important Notes:**
+- Ensure the JSON format is correct, no extra commas
+- SecretId and SecretKey must be enclosed in quotes
+- Do not add comments in the configuration file (JSON does not support comments)
+- `output_dir` specifies the default output directory, uses `./output` if not specified
 
-## 安全建议
+## Security Recommendations
 
-### 1. 保护 API 密钥
+### 1. API Credentials Protection
 
-- ✅ **不要**将 `config.json` 提交到版本控制系统（Git）
-- ✅ 使用 `.gitignore` 忽略 `config.json` 文件
-- ✅ 定期轮换 API 密钥
-- ✅ 为不同的环境使用不同的密钥
+- ⚠️ **DO NOT** commit `config.json` to version control (Git)
+- ⚠️ Use `.gitignore` to ignore `config.json` (already configured)
+- ⚠️ Rotate API keys regularly
+- ⚠️ Use different keys for different environments
+- ⚠️ Follow least privilege principle when configuring API keys
+- ⚠️ Rotate/delete keys after testing
 
-### 2. 配置文件权限
+### 2. Output Directory Safety
 
-在 Linux/macOS 系统上，设置配置文件的访问权限：
+- ⚠️ Do not set output directory to sensitive system paths
+- ⚠️ Recommended to use dedicated temporary directory or sandbox environment
+- ⚠️ Program will automatically create output directory but prevents directory traversal attacks
+- ⚠️ Output path must be within the configured output_dir directory
+
+### 3. Runtime Environment
+
+- ⚠️ Recommended to run in isolated environment (container or sandbox)
+- ⚠️ Use temporary API keys with minimal permissions for testing
+- ⚠️ All API requests are encrypted via HTTPS
+- ⚠️ Only accesses official Tencent Cloud API endpoint (wsa.tencentcloudapi.com)
+
+### 4. Configuration File Permissions
+
+On Linux/macOS systems, set file access permissions:
 
 ```bash
 chmod 600 config.json
 ```
 
-这确保只有文件所有者可以读取和修改配置文件。
+This ensures only the file owner can read and modify the configuration file.
 
-### 3. 环境变量（可选）
+## Verify Configuration
 
-作为替代方案，您也可以使用环境变量来存储 API 密钥：
-
-```bash
-export TENCENT_CLOUD_SECRET_ID="your_secret_id"
-export TENCENT_CLOUD_SECRET_KEY="your_secret_key"
-export TENCENT_CLOUD_OUTPUT_DIR="./output"
-```
-
-然后修改代码以从环境变量读取密钥。
-
-## 验证配置
-
-配置完成后，您可以通过运行测试命令来验证配置是否正确：
+After configuration is complete, you can verify the configuration by running a test command:
 
 ```bash
-python scripts/tencent_hotsearch.py 测试 -l 1 --print
+python scripts/tencent_hotsearch.py test -l 1 --print
 ```
 
-如果配置正确，您应该能看到搜索结果。如果出现错误，请检查：
+If the configuration is correct, you should see search results. If errors occur, please check:
 
-1. SecretId 和 SecretKey 是否正确填写
-2. 网络连接是否正常
-3. 腾讯云账户是否已开通联网搜索服务
-4. API 密钥是否有足够的权限
+1. Whether SecretId and SecretKey are correctly filled
+2. Whether the network connection is normal
+3. Whether the Tencent Cloud account has activated the Online Search service
+4. Whether the API key has sufficient permissions
 
-## 输出目录配置
+## Output Directory Configuration
 
-您可以在 `config.json` 中配置默认输出目录：
+You can configure the default output directory in `config.json`:
 
 ```json
 {
@@ -151,73 +155,73 @@ python scripts/tencent_hotsearch.py 测试 -l 1 --print
 }
 ```
 
-支持以下路径格式：
-- **相对路径**: `./output`, `../results`, `search_output`
-- **绝对路径**: `/path/to/your/search_results`, `C:\Users\yourname\Documents\search_results`
+The following path formats are supported:
+- **Relative paths**: `./output`, `../results`, `search_output`
+- **Absolute paths**: `/path/to/your/search_results`, `C:\Users\yourname\Documents\search_results`
 
-如果未指定 `output_dir`，默认使用 `./output`。
+If `output_dir` is not specified, `./output` is used by default.
 
-## 常见问题
+## Frequently Asked Questions
 
-### Q1: SecretId 和 SecretKey 在哪里查看？
+### Q1: Where can I view SecretId and SecretKey?
 
-A: 访问 [腾讯云访问管理控制台](https://console.cloud.tencent.com/cam/capi)，点击"新建密钥"获取。注意 SecretKey 只显示一次，请妥善保存。
+A: Visit [Tencent Cloud Access Management Console](https://console.cloud.tencent.com/cam/capi), click "Create Key" to obtain. Note that SecretKey is only displayed once, please save it properly.
 
-### Q2: SecretKey 忘记保存了怎么办？
+### Q2: What if I forgot to save SecretKey?
 
-A: 您可以删除旧密钥并创建新密钥。访问 [访问管理控制台](https://console.cloud.tencent.com/cam/capi)，删除旧密钥后创建新密钥。
+A: You can delete the old key and create a new one. Visit [Access Management Console](https://console.cloud.tencent.com/cam/capi), delete the old key and create a new one.
 
-### Q3: API 调用失败，提示认证失败？
+### Q3: API call fails with authentication error?
 
-A: 请检查：
-- SecretId 和 SecretKey 是否正确复制（注意不要有多余的空格）
-- SecretId 是否以 AKID 开头
-- 账户是否有足够的余额或免费额度
-- 账户是否已开通联网搜索服务
+A: Please check:
+- Whether SecretId and SecretKey are correctly copied (note no extra spaces)
+- Whether SecretId starts with AKID
+- Whether the account has sufficient balance or free quota
+- Whether the account has activated the Online Search service
 
-### Q4: 如何查看 API 调用次数和费用？
+### Q4: How to view API call count and charges?
 
-A: 访问 [腾讯云费用中心](https://console.cloud.tencent.com/expense/bill) 查看详细的调用记录和费用信息。
+A: Visit [Tencent Cloud Expense Center](https://console.cloud.tencent.com/expense/bill) to view detailed call records and charge information.
 
-### Q5: 免费额度是多少？
+### Q5: What is the free quota?
 
-A: 腾讯云联网搜索 API 提供一定的免费调用额度，具体额度请参考官方文档。超出免费额度后，按实际调用量计费。
+A: Tencent Cloud Online Search API provides a certain amount of free calls. Please refer to the official documentation for the specific quota. After exceeding the free quota, you will be charged based on actual usage.
 
-### Q6: 如何提高 API 调用速度？
+### Q6: How to improve API call speed?
 
-A: 
-- 优化网络连接
-- 使用 CDN 加速
-- 合理设置并发请求数
+A:
+- Optimize network connection
+- Use CDN acceleration
+- Set concurrent requests reasonably
 
-### Q7: 输出目录不存在会怎样？
+### Q7: What happens if the output directory does not exist?
 
-A: 程序会自动创建输出目录（包括所有父目录），无需手动创建。
+A: The program will automatically create the output directory (including all parent directories), no manual creation required.
 
-### Q8: 可以同时指定输出路径和输出格式吗？
+### Q8: Can I specify both output path and output format?
 
-A: 可以。使用 `-o` 参数指定输出路径，使用 `-f` 参数指定输出格式。例如：
+A: Yes. Use the `-o` parameter to specify the output path and the `-f` parameter to specify the output format. For example:
 
 ```bash
-python scripts/tencent_hotsearch.py 人工智能 -o results.json -f json
+python scripts/tencent_hotsearch.py "AI" -o results.json -f json
 ```
 
-## 相关链接
+## Related Links
 
-- [腾讯云联网搜索产品页](https://cloud.tencent.com/product/ais)
-- [腾讯云联网搜索 API 文档](https://cloud.tencent.com/document/product/1139/46888)
-- [腾讯云访问管理控制台](https://console.cloud.tencent.com/cam/capi)
-- [腾讯云联网搜索控制台](https://console.cloud.tencent.com/ais)
-- [腾讯云费用中心](https://console.cloud.tencent.com/expense/bill)
+- [Tencent Cloud Online Search Product Page](https://cloud.tencent.com/product/ais)
+- [Tencent Cloud Online Search API Documentation](https://cloud.tencent.com/document/product/1139/46888)
+- [Tencent Cloud Access Management Console](https://console.cloud.tencent.com/cam/capi)
+- [Tencent Cloud Online Search Console](https://console.cloud.tencent.com/ais)
+- [Tencent Cloud Expense Center](https://console.cloud.tencent.com/expense/bill)
 
-## 技术支持
+## Technical Support
 
-如果您在配置过程中遇到问题：
+If you encounter issues during configuration:
 
-1. 查看 [腾讯云文档中心](https://cloud.tencent.com/document/product)
-2. 提交 [工单系统](https://console.cloud.tencent.com/workorder)
-3. 联系腾讯云技术支持
+1. Check [Tencent Cloud Documentation Center](https://cloud.tencent.com/document/product)
+2. Submit a ticket via [Ticket System](https://console.cloud.tencent.com/workorder)
+3. Contact Tencent Cloud technical support
 
 ---
 
-**最后更新**: 2024年
+**Last Updated**: 2024

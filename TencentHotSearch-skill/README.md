@@ -1,50 +1,75 @@
 # TencentHotSearch Skill
 
-基于腾讯云联网搜索 API（SearchPro）的热点搜索工具，支持全网搜索或指定站点搜索，获取关键词相关的热门文章和新闻资讯。
+> ⚠️ **Security Notice**: This skill requires Tencent Cloud API credentials. Please read [Security Considerations](#security-considerations) and [SECURITY.md](SECURITY.md) before installation.
 
-**API 信息:**
-- **接口域名**: wsa.tencentcloudapi.com
-- **接口版本**: 2025-05-08
-- **接口名称**: SearchPro
+A trending news and article search tool based on Tencent Cloud Online Search API (SearchPro). Supports web-wide search or site-specific search to retrieve popular articles and news related to keywords.
 
-## 功能特性
+**API Information:**
+- **Endpoint Domain**: wsa.tencentcloudapi.com
+- **API Version**: 2025-05-08
+- **API Name**: SearchPro
 
-- **多关键词搜索**: 支持输入 1-5 个关键词进行组合搜索
-- **站点指定**: 可选择全网搜索或指定站点搜索（如腾讯网 qq.com、新闻频道 news.qq.com 等）
-- **多种搜索模式**:
-  - 自然检索结果 (Mode=0, 默认)
-  - 多模态VR结果 (Mode=1)
-  - 混合结果 (Mode=2)
-- **时间过滤**: 支持按起始时间和结束时间过滤结果
-- **行业过滤**: 支持按行业过滤（gov/news/acad/finance，尊享版）
-- **结构化结果**: 返回包含标题、摘要、动态摘要、来源平台、发布时间、原文链接、相关度得分、图片列表等完整信息
-- **多格式输出**: 支持 JSON、CSV、TXT、MD 格式输出（默认 MD）
-- **自定义输出路径**: 支持在配置文件中设置默认输出目录
+## Source & Repository
 
-## 安装
+- **GitHub**: https://github.com/neuhanli/skills
+- **Package**: TencentHotSearch-skill
+- **Documentation**: [SECURITY.md](SECURITY.md), [CONFIG.md](CONFIG.md)
 
-### 1. 克隆仓库
+### Verification
+
+To verify the integrity of this skill:
+
+```bash
+# Clone the official repository
+git clone https://github.com/neuhanli/skills.git
+cd skills/TencentHotSearch-skill
+
+# Review the code
+cat scripts/tencent_hotsearch.py
+cat requirements.txt
+
+# Check configuration
+cat config.example.json
+```
+
+## Features
+
+- **Multi-keyword Search**: Supports 1-5 keywords for combined search
+- **Site-specific Search**: Choose between web-wide search or specific sites (e.g., qq.com, news.qq.com)
+- **Multiple Search Modes**:
+  - Natural search results (Mode=0, default)
+  - Multimodal VR results (Mode=1)
+  - Mixed results (Mode=2)
+- **Time Filtering**: Filter results by start time and end time
+- **Industry Filtering**: Filter by industry (gov/news/acad/finance, Premium version)
+- **Structured Results**: Returns complete information including title, summary, dynamic summary, source platform, publish time, original link, relevance score, image list, etc.
+- **Multi-format Output**: Supports JSON, CSV, TXT, MD format output (default: MD)
+- **Custom Output Path**: Supports setting default output directory in configuration file
+
+## Installation
+
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/neuhanli/skills.git
 cd skills/TencentHotSearch-skill
 ```
 
-### 2. 安装依赖
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. 配置 API 密钥
+### 3. Configure API Credentials
 
-复制配置模板并填写您的 API 密钥：
+Copy the configuration template and fill in your API credentials:
 
 ```bash
 cp config.example.json config.json
 ```
 
-编辑 `config.json`，填入您的腾讯云 API 密钥：
+Edit `config.json` and fill in your Tencent Cloud API credentials:
 
 ```json
 {
@@ -54,115 +79,115 @@ cp config.example.json config.json
 }
 ```
 
-详细配置步骤请参考 [CONFIG.md](CONFIG.md)
+For detailed configuration steps, refer to [CONFIG.md](CONFIG.md)
 
-### 4. 运行搜索
+### 4. Run Search
 
-#### 命令行使用
-
-```bash
-# 全网搜索（默认模式，输出为 MD 格式）
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -l 10
-
-# 指定站点搜索（腾讯网）
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -s qq.com -l 10
-
-# 指定站点搜索（新闻频道）
-python scripts/tencent_hotsearch.py 科技 创新 -s news.qq.com -l 15
-
-# 使用多模态VR模式搜索
-python scripts/tencent_hotsearch.py 人工智能 -m 1 -l 10
-
-# 使用混合模式搜索
-python scripts/tencent_hotsearch.py 人工智能 -m 2 -l 20
-
-# 按时间范围搜索
-python scripts/tencent_hotsearch.py 人工智能 --from-time 1704067200 --to-time 1706745600
-
-# 按行业过滤（尊享版）
-python scripts/tencent_hotsearch.py 人工智能 --industry news -l 20
-
-# 保存结果到指定文件
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -o results.md
-
-# 保存结果到 JSON 文件
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -o results.json -f json
-
-# 保存结果到 CSV 文件
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -o results.csv -f csv
-
-# 保存结果到 TXT 文件
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -o results.txt -f txt
-
-# 打印结果到控制台
-python scripts/tencent_hotsearch.py 人工智能 AI技术 --print
-
-# 自定义存储路径（相对路径）
-python scripts/tencent_hotsearch.py 人工智能 -o output/ai_results.txt -f txt
-
-# 自定义存储路径（绝对路径）
-python scripts/tencent_hotsearch.py 科技 -o /path/to/your/output/tech_news.md -f md
-```
-
-## 命令行参数
-
-| 参数 | 说明 | 默认值 |
-|------|------|--------|
-| `keywords` | 搜索关键词（1-5个） | - |
-| `-s, --site` | 指定搜索站点（如 qq.com） | 全网搜索 |
-| `-m, --mode` | 搜索模式 (0/1/2) | 0 |
-| `-l, --limit` | 结果数量 (10/20/30/40/50) | 10 |
-| `--from-time` | 起始时间 (Unix 时间戳) | - |
-| `--to-time` | 结束时间 (Unix 时间戳) | - |
-| `--industry` | 行业过滤 (gov/news/acad/finance) | - |
-| `-c, --config` | 配置文件路径 | config.json |
-| `-o, --output` | 输出文件路径 | - |
-| `-f, --format` | 输出格式 (json/csv/txt/md) | md |
-| `--print` | 打印结果到控制台 | False |
-
-## 使用示例
-
-### 示例 1: 全网搜索 AI 相关新闻
+#### Command Line Usage
 
 ```bash
-python scripts/tencent_hotsearch.py 人工智能 AI技术 -l 15 -o ai_news.md
+# Web-wide search (default mode, MD format output)
+python scripts/tencent_hotsearch.py "AI" "machine learning" -l 10
+
+# Site-specific search (Tencent.com)
+python scripts/tencent_hotsearch.py "AI" "machine learning" -s qq.com -l 10
+
+# Site-specific search (News channel)
+python scripts/tencent_hotsearch.py "technology" "innovation" -s news.qq.com -l 15
+
+# Multimodal VR mode search
+python scripts/tencent_hotsearch.py "AI" -m 1 -l 10
+
+# Mixed mode search
+python scripts/tencent_hotsearch.py "AI" -m 2 -l 20
+
+# Search by time range
+python scripts/tencent_hotsearch.py "AI" --from-time 1704067200 --to-time 1706745600
+
+# Filter by industry (Premium)
+python scripts/tencent_hotsearch.py "AI" --industry news -l 20
+
+# Save results to specified file
+python scripts/tencent_hotsearch.py "AI" "machine learning" -o results.md
+
+# Save results to JSON file
+python scripts/tencent_hotsearch.py "AI" "machine learning" -o results.json -f json
+
+# Save results to CSV file
+python scripts/tencent_hotsearch.py "AI" "machine learning" -o results.csv -f csv
+
+# Save results to TXT file
+python scripts/tencent_hotsearch.py "AI" "machine learning" -o results.txt -f txt
+
+# Print results to console
+python scripts/tencent_hotsearch.py "AI" "machine learning" --print
+
+# Custom storage path (relative path)
+python scripts/tencent_hotsearch.py "AI" -o output/ai_results.txt -f txt
+
+# Custom storage path (absolute path)
+python scripts/tencent_hotsearch.py "technology" -o /path/to/your/output/tech_news.md -f md
 ```
 
-### 示例 2: 在腾讯网搜索科技资讯
+## Command Line Arguments
+
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `keywords` | Search keywords (1-5) | - |
+| `-s, --site` | Specify search site (e.g., qq.com) | Web-wide search |
+| `-m, --mode` | Search mode (0/1/2) | 0 |
+| `-l, --limit` | Number of results (10/20/30/40/50) | 10 |
+| `--from-time` | Start time (Unix timestamp) | - |
+| `--to-time` | End time (Unix timestamp) | - |
+| `--industry` | Industry filter (gov/news/acad/finance) | - |
+| `-c, --config` | Configuration file path | config.json |
+| `-o, --output` | Output file path | - |
+| `-f, --format` | Output format (json/csv/txt/md) | md |
+| `--print` | Print results to console | False |
+
+## Usage Examples
+
+### Example 1: Web-wide search for AI-related news
 
 ```bash
-python scripts/tencent_hotsearch.py 科技 创新 -s qq.com -l 20 -f json
+python scripts/tencent_hotsearch.py "AI" "machine learning" -l 15 -o ai_news.md
 ```
 
-### 示例 3: 在新闻频道搜索财经新闻
+### Example 2: Search technology news on Tencent.com
 
 ```bash
-python scripts/tencent_hotsearch.py 财经 股市 -s news.qq.com --print
+python scripts/tencent_hotsearch.py "technology" "innovation" -s qq.com -l 20 -f json
 ```
 
-### 示例 4: 多关键词搜索
+### Example 3: Search financial news on news channel
 
 ```bash
-python scripts/tencent_hotsearch.py 区块链 Web3 加密货币 -l 10 -f csv
+python scripts/tencent_hotsearch.py "finance" "stock market" -s news.qq.com --print
 ```
 
-### 示例 5: 按时间范围搜索
+### Example 4: Multi-keyword search
 
 ```bash
-python scripts/tencent_hotsearch.py 人工智能 --from-time 1704067200 --to-time 1706745600 -l 30
+python scripts/tencent_hotsearch.py "blockchain" "Web3" "cryptocurrency" -l 10 -f csv
 ```
 
-### 示例 6: 使用混合模式搜索
+### Example 5: Search by time range
 
 ```bash
-python scripts/tencent_hotsearch.py 人工智能 -m 2 -l 20 -o results.md
+python scripts/tencent_hotsearch.py "AI" --from-time 1704067200 --to-time 1706745600 -l 30
 ```
 
-## 输出格式
+### Example 6: Mixed mode search
 
-### Markdown 格式 (默认)
+```bash
+python scripts/tencent_hotsearch.py "AI" -m 2 -l 20 -o results.md
+```
 
-适合在 Markdown 编辑器中查看，包含格式化的标题、链接和元数据。
+## Output Formats
+
+### Markdown Format (Default)
+
+Suitable for viewing in Markdown editors, includes formatted titles, links, and metadata.
 
 ```markdown
 # Search Results
@@ -172,35 +197,35 @@ python scripts/tencent_hotsearch.py 人工智能 -m 2 -l 20 -o results.md
 
 ---
 
-## 1. 文章标题
+## 1. Article Title
 
-**摘要:** 内容摘要...
+**Summary:** Content summary...
 
-**动态摘要:** 动态摘要内容...
+**Dynamic Summary:** Dynamic summary content...
 
-**来源:** 来源平台
+**Source:** Source Platform
 
-**时间:** 2024-01-15 10:30:00
+**Time:** 2024-01-15 10:30:00
 
-**链接:** [https://example.com/article](https://example.com/article)
+**Link:** [https://example.com/article](https://example.com/article)
 
-**相关度:** 0.8978
+**Relevance:** 0.8978
 
 ---
 ```
 
-### JSON 格式
+### JSON Format
 
-结构化数据，适合程序处理和数据分析。
+Structured data, suitable for program processing and data analysis.
 
 ```json
 {
   "results": [
     {
-      "title": "文章标题",
-      "summary": "标准摘要...",
-      "dynamic_summary": "动态摘要（尊享版）...",
-      "source": "来源平台",
+      "title": "Article Title",
+      "summary": "Standard summary...",
+      "dynamic_summary": "Dynamic summary (Premium version)...",
+      "source": "Source Platform",
       "publishTime": "2024-01-15 10:30:00",
       "url": "https://example.com/article",
       "score": 0.8978,
@@ -213,60 +238,60 @@ python scripts/tencent_hotsearch.py 人工智能 -m 2 -l 20 -o results.md
 }
 ```
 
-### CSV 格式
+### CSV Format
 
-表格格式，适合 Excel 等工具打开进行数据分析。
+Table format, suitable for opening in Excel and other tools for data analysis.
 
-### TXT 格式
+### TXT Format
 
-纯文本格式，适合快速阅读和复制粘贴。
+Plain text format, suitable for quick reading and copy-paste.
 
-## 搜索模式说明
+## Search Modes
 
-### Mode 0: 自然检索结果 (默认)
+### Mode 0: Natural Search Results (Default)
 
-- 返回传统的网页搜索结果
-- 支持 Site、FromTime、ToTime、Industry 等过滤参数
-- 适合常规搜索需求
+- Returns traditional web search results
+- Supports filtering parameters such as Site, FromTime, ToTime, Industry
+- Suitable for regular search needs
 
-### Mode 1: 多模态VR结果
+### Mode 1: Multimodal VR Results
 
-- 返回多模态VR搜索结果
-- **注意**: Site、FromTime、ToTime、Industry 参数在此模式下无效
-- 适合需要富媒体内容的场景
+- Returns multimodal VR search results
+- **Note**: Site, FromTime, ToTime, Industry parameters are invalid in this mode
+- Suitable for scenarios requiring rich media content
 
-### Mode 2: 混合结果
+### Mode 2: Mixed Results
 
-- 返回多模态VR结果 + 自然检索结果的混合
-- Site、FromTime、ToTime、Industry 参数仅对自然结果生效
-- 适合需要全面搜索结果的场景
+- Returns a mix of multimodal VR results and natural search results
+- Site, FromTime, ToTime, Industry parameters only apply to natural results
+- Suitable for scenarios requiring comprehensive search results
 
-## 行业过滤 (尊享版)
+## Industry Filters (Premium Version)
 
-| 值 | 说明 |
-|----|------|
-| gov | 党政机关 |
-| news | 权威媒体 |
-| acad | 学术（英文） |
-| finance | 金融 |
+| Value | Description |
+|-------|-------------|
+| gov | Government and party organs |
+| news | Authoritative media |
+| acad | Academic (English) |
+| finance | Finance |
 
-## API 响应字段
+## API Response Fields
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| title | string | 结果标题 |
-| summary | string | 标准摘要 |
-| dynamic_summary | string | 动态摘要（尊享版） |
-| source | string | 网站名称 |
-| publishTime | string | 内容发布时间 |
-| url | string | 内容发布源 URL |
-| score | float | 相关性得分（0～1） |
-| images | array | 图片列表 |
-| favicon | string | 网站图标链接 |
+| Field | Type | Description |
+|-------|------|-------------|
+| title | string | Result title |
+| summary | string | Standard summary |
+| dynamic_summary | string | Dynamic summary (Premium version) |
+| source | string | Website name |
+| publishTime | string | Content publish time |
+| url | string | Content source URL |
+| score | float | Relevance score (0~1) |
+| images | array | Image list |
+| favicon | string | Website icon link |
 
-## 配置文件说明
+## Configuration File
 
-### config.json 结构
+### config.json Structure
 
 ```json
 {
@@ -276,40 +301,129 @@ python scripts/tencent_hotsearch.py 人工智能 -m 2 -l 20 -o results.md
 }
 ```
 
-### 配置参数
+### Configuration Parameters
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| secret_id | string | 是 | 腾讯云 API 密钥 ID |
-| secret_key | string | 是 | 腾讯云 API 密钥 Key |
-| output_dir | string | 否 | 默认输出目录，默认为 ./output |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| secret_id | string | Yes | Tencent Cloud API Key ID |
+| secret_key | string | Yes | Tencent Cloud API Key |
+| output_dir | string | No | Default output directory, defaults to ./output |
 
-## 依赖
+## Dependencies
 
 - Python 3.7+
-- tencentcloud-sdk-python
-- pandas (用于 CSV 导出)
+- No external dependencies (core functionality uses only Python standard library)
+- Optional: pandas>=2.0.0 (only when CSV export functionality is needed)
 
-## 注意事项
+## Security Considerations
 
-- 关键词数量限制：1-5 个
-- 结果数量限制：10/20/30/40/50（尊享版支持到 50）
-- 时间戳格式：Unix 时间戳（秒）
-- 行业过滤仅尊享版支持
-- 动态摘要仅尊享版支持
-- Mode 1 模式下，Site、FromTime、ToTime、Industry 参数无效
+> For comprehensive security guidelines, see [SECURITY.md](SECURITY.md)
 
-## 错误处理
+### Before Installation
 
-- **配置文件不存在**: 提示创建 config.json 文件
-- **API 认证失败**: 检查 SecretId 和 SecretKey 是否正确
-- **网络错误**: 检查网络连接和 API 服务状态
-- **参数错误**: 检查关键词数量、时间戳格式等
+⚠️ **Important**: This skill requires Tencent Cloud API credentials. Please ensure you:
 
-## 许可证
+1. **Review the source code** in `scripts/tencent_hotsearch.py`
+2. **Use temporary/least-privileged API keys** for testing
+3. **Run in isolated environment** (container/VM)
+4. **Never commit config.json** to version control
+5. **Read [SECURITY.md](SECURITY.md)** for complete security checklist
+
+### 1. API Credentials Protection
+
+- ⚠️ **DO NOT** commit `config.json` to version control (Git)
+- ⚠️ Use `.gitignore` to ignore `config.json` (already configured)
+- ⚠️ Rotate API keys regularly
+- ⚠️ Use different keys for different environments
+- ⚠️ Follow least privilege principle when configuring API keys
+
+### 2. Output Directory Safety
+
+- ⚠️ Do not set output directory to sensitive system paths
+- ⚠️ Recommended to use dedicated temporary directory or sandbox environment
+- ⚠️ Program will automatically create output directory but prevents directory traversal attacks
+
+### 3. Runtime Environment
+
+- ⚠️ Recommended to run in isolated environment (container or sandbox)
+- ⚠️ Use temporary API keys with minimal permissions for testing
+- ⚠️ Rotate/delete keys after testing
+
+### 4. Network Security
+
+- ✅ All API requests are encrypted via HTTPS
+- ✅ Only accesses official Tencent Cloud API endpoint (wsa.tencentcloudapi.com)
+- ✅ Request timeout set to 30 seconds to avoid long blocking
+
+## Notes
+
+- Keyword limit: 1-5 keywords
+- Result limit: 10/20/30/40/50 (Premium version supports up to 50)
+- Timestamp format: Unix timestamp (seconds)
+- Industry filtering only supported in Premium version
+- Dynamic summary only supported in Premium version
+- In Mode 1, Site, FromTime, ToTime, Industry parameters are invalid
+- Output path must be within the configured output_dir directory to prevent directory traversal attacks
+
+## Error Handling
+
+- **Configuration file not found**: Prompt to create config.json file, refer to CONFIG.md
+- **API authentication failed**: Check if SecretId and SecretKey are correct (error messages do not expose credentials)
+- **Network error**: Check network connection and API service status
+- **Parameter error**: Check keyword count, timestamp format, etc.
+- **Path security error**: Output paths containing directory traversal attempts (..) will be rejected
+
+## License
 
 MIT License
 
-## 作者
+## Installation Verification Checklist
+
+> ⚠️ **Important**: Due to registry metadata inconsistencies, please complete this verification before providing API credentials.
+
+Before installing and providing credentials:
+
+- [ ] **Review Source Code**: Examine `scripts/tencent_hotsearch.py` for API calls and signing logic
+- [ ] **Verify Repository**: Confirm the official GitHub repository: https://github.com/neuhanli/skills
+- [ ] **Use Temporary Keys**: Create dedicated, least-privileged Tencent API keys
+- [ ] **Isolated Environment**: Run in container/VM with non-sensitive output directory
+- [ ] **File Protection**: Ensure `config.json` is never committed and set `chmod 600`
+- [ ] **Monitor Network**: Watch for unexpected network connections
+
+### Code Integrity Verification
+
+```bash
+# Clone and inspect the code
+git clone https://github.com/neuhanli/skills.git
+cd skills/TencentHotSearch-skill
+
+# Review the main script
+cat scripts/tencent_hotsearch.py
+
+# Check for expected functionality
+grep -n "wsa.tencentcloudapi.com" scripts/tencent_hotsearch.py
+grep -n "HMAC" scripts/tencent_hotsearch.py
+grep -n "config.json" scripts/tencent_hotsearch.py
+
+# Verify no unexpected dependencies
+grep -n "import" scripts/tencent_hotsearch.py | grep -v "from datetime\|from pathlib\|from typing\|import json\|import os\|import sys\|import hashlib\|import hmac\|import time\|import urllib"
+```
+
+### Expected Code Patterns
+
+When reviewing the code, look for these legitimate patterns:
+
+- ✅ **Tencent API Endpoint**: `wsa.tencentcloudapi.com`
+- ✅ **HMAC-SHA256 Signing**: Manual implementation using `hashlib` and `hmac`
+- ✅ **Configuration File**: Reads `config.json` for credentials
+- ✅ **Standard Library Only**: Uses `urllib` instead of external HTTP libraries
+- ✅ **Path Validation**: Prevents directory traversal attacks
+- ✅ **Secret Masking**: API keys are masked in error messages
+
+### Registry Metadata Notice
+
+The registry metadata incorrectly states "no credentials/config required" while the actual code requires Tencent API credentials. This inconsistency has been addressed in SKILL.md but users should be aware of this discrepancy.
+
+## Author
 
 Created for Agent Skills platform
