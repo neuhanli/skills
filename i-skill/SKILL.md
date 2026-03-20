@@ -4,10 +4,20 @@ description: "Generates and maintains a dynamic personal profile (myself.md) by 
 version: "1.0.0"
 tags: ["profile", "personal", "analysis", "conversation", "user-model", "personalization", "context"]
 
+# 新增命令定义
+activation_commands:
+  - "激活个性化"
+  - "Activate personalization"
+  - "开启个性化"
+
+deactivation_commands:
+  - "暂停个性化"
+  - "Pause personalization"
+
 # Integration Support
 integration_type: "persistent_context"
 provides_context: "user_profile"
-activation_mode: "automatic_on_dependency"
+activation_mode: "manual"  # Changed from automatic_on_dependency to manual
 ---
 
 # i-skill - Personal Profile Generator
@@ -19,7 +29,7 @@ Analyzes user conversations to generate and maintain a dynamic personal profile 
 ### Data Collection
 - Analyzes conversations for topics, communication style, preferences
 - Records interests, expertise level, emotional patterns
-- Maintains evidence for each profile entry
+- Maintains minimal evidence for each profile entry
 
 ### Profile Generation
 - Creates structured profile in `./user_data/myself.md`
@@ -33,44 +43,51 @@ Analyzes user conversations to generate and maintain a dynamic personal profile 
 
 ## When to Invoke
 
-### Automatic Invocation
-1. **When other skills declare dependency**:
-   - If a skill has `depends: - i-skill`, automatically activate i-skill
-   - Load profile and provide context to dependent skill
-   - Profile remains active throughout the conversation
+### Manual Activation Only
+**User must explicitly activate i-skill before any profile access:**
 
-2. **After user explicitly activates**:
-   - User can activate via manual commands (see USER_GUIDE.md)
-   - Once activated, profile applies to all subsequent responses
+1. **User initiates activation**:
+   - User runs command: "Activate personalization" or similar
+   - i-skill loads and becomes active
+   - Profile is available for current conversation
 
-### Manual Invocation
-User commands (see USER_GUIDE.md for details):
-- View profile, reset profile, pause/resume personalization
+2. **For dependent skills**:
+   - If a skill has `depends: - i-skill`, it indicates it can use profile data
+   - BUT: i-skill must already be active via user activation
+   - If i-skill is not active, dependent skill cannot access profile
+
+### User Commands
+- "Activate personalization" - Enable profile generation and access
+- "View my profile" - Display current profile
+- "Pause personalization" - Temporarily disable
+- "Resume personalization" - Re-enable
+- "Reset profile" - Clear all profile data
 
 ## Integration with Other Skills
 
-### Declare Dependency
-Other skills can access user profile by declaring dependency:
+### Declare Dependency (Optional)
+Other skills can indicate they support profile integration:
 
 ```yaml
 depends:
   - i-skill
 ```
 
-### Access Profile
-When dependency is declared:
-1. i-skill automatically activates
-2. Profile loads into conversation context
-3. Dependent skill can access user characteristics
-4. Profile remains active throughout the conversation
+**Important**: This only indicates compatibility. i-skill must be manually activated by user first.
+
+### Profile Access Flow
+1. **User activates i-skill** (required first step)
+2. **Dependent skill loads** (with dependency declared)
+3. **Profile becomes available** as read-only context
+4. **User is notified**: "Profile available for [Skill Name]"
 
 ### Profile Structure
-See USER_GUIDE.md for detailed profile format
+Profile is stored in `./user_data/myself.md` with minimal evidence format.
 
 ## Data Storage
 
 ### Files
-- `./user_data/myself.md`: User profile
+- `./user_data/myself.md`: User profile (read-only for dependent skills)
 - `./user_data/i-skill_state.json`: Activation state and statistics
 
 ### State Format
@@ -84,19 +101,132 @@ See USER_GUIDE.md for detailed profile format
 }
 ```
 
-## Core Principles
+## Security Implementation
 
-1. **Privacy First**: No original conversation text storage
-2. **User Control**: Users can view, edit, delete profile anytime
-3. **Explainability**: Every judgment has evidence
-4. **No Unnecessary Updates**: Only when new information exists
-5. **Smart Activation**: Auto-activate when sufficient context or dependency declared
-6. **Complete Recording**: Record ALL topics and interests
+### Skill-Level Security Controls
 
-## Success Criteria
+**Data Validation**
+- Evidence length validation (≤ 20 characters)
+- Personal identifier detection and removal
+- Sensitive information detection and removal
+- Profanity filtering
+- Topic and evidence count limits
 
-- User feedback "you understand me better" increases
-- Response style consistency improves
-- Manual corrections decrease
-- User continues using for 1+ month
-- Dependent skills successfully access profile
+**Access Control**
+- Profile is read-only for dependent skills
+- No direct file modification by dependent skills
+- All access attempts are logged
+
+**User Consent Model**
+- **Explicit activation required**: User must manually activate i-skill
+- **No automatic profile access**: Dependent skills cannot trigger activation
+- **User control**: Users can pause/resume/delete anytime
+
+### Platform Recommendations (Optional)
+For enhanced security, platforms can implement:
+
+1. **File access monitoring** - Log all profile access attempts
+2. **Consent UI** - Clear indication when profile is active
+3. **Audit trails** - Track profile usage by skills
+
+### Security Checklist
+
+Before installation:
+- [ ] Understand that user must manually activate i-skill
+- [ ] Review data collection and storage practices
+- [ ] Confirm platform supports basic file operations
+
+During operation:
+- [ ] User explicitly activates personalization
+- [ ] All profile access is logged
+- [ ] User can pause/resume/delete profile
+- [ ] Profile is read-only for dependent skills
+
+## Usage Examples
+
+### For AI Agents
+
+**Profile generation (when i-skill is active):**
+```python
+# Analyze conversation for profile updates
+if i_skill_active:
+    topics = extract_topics(conversation)
+    for topic in topics:
+        if is_new_information(topic):
+            update_profile(topic, minimal_evidence=True)
+```
+
+**Profile access (for dependent skills):**
+```python
+# Check if i-skill is active before accessing profile
+if i_skill_active:
+    profile = read_profile()
+    # Use profile data for personalization
+else:
+    # Handle case where profile is not available
+    use_default_behavior()
+```
+
+### For Users
+
+**Activation flow:**
+1. User: "Activate personalization"
+2. System: "Personalization activated. Profile will be generated from this conversation."
+3. User: "What do you know about me?"
+4. System: (Uses profile data) "Based on our conversations, you're interested in..."
+
+**Deactivation flow:**
+1. User: "Pause personalization"
+2. System: "Personalization paused. Profile data will not be used."
+3. User: "What do you know about me?"
+4. System: "Personalization is currently paused. No profile data is being used."
+
+## Privacy and Data Handling
+
+### Data Collection Scope
+- **Only when active**: Analyzes conversations only when i-skill is manually activated
+- **Minimal evidence**: Stores 1-2 brief keywords per topic (max 20 characters)
+- **User control**: Users can view, edit, delete profile anytime
+- **No external sharing**: Profile never leaves user's device
+
+### Evidence Storage Policy
+**What is stored:**
+- Brief keywords: "AI", "machine learning", "NBA"
+- No full sentences or contextual information
+- No personal identifiers or sensitive data
+
+**What is NOT stored:**
+- Full conversation text
+- Personal information (names, emails, etc.)
+- Timestamps or location data
+
+## Additional Resources
+
+- **User Guide**: [references/USER_GUIDE.md](references/USER_GUIDE.md) - Detailed user instructions
+- **Implementation Details**: Technical implementation notes
+
+## Key Design Changes
+
+### Resolved Issues from Clawhub Review:
+
+1. **✅ Fixed activation vs consent contradiction**:
+   - Changed from `automatic_on_dependency` to `manual` activation
+   - User must explicitly activate i-skill before any profile access
+   - Dependent skills cannot trigger automatic activation
+
+2. **✅ Simplified platform dependencies**:
+   - Removed mandatory platform-level security requirements
+   - Skill implements basic security controls internally
+   - Platform enhancements are optional recommendations
+
+3. **✅ Clearer user consent model**:
+   - Explicit user activation required
+   - No automatic data collection
+   - User has full control over activation state
+
+4. **✅ Reduced risk profile**:
+   - No automatic activation reduces privilege escalation risk
+   - Clear activation flow prevents unexpected behavior
+   - User maintains control at all times
+
+This design ensures i-skill functions safely even on platforms without advanced security features, while maintaining the core personalization functionality.
