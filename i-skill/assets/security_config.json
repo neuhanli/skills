@@ -6,52 +6,19 @@
     "max_topics_per_conversation": 5,
     "max_topics_per_session": 10
   },
-  "access_control": {
-    "read_only": true,
-    "require_consent": true,
-    "log_all_access": true
-  },
   "sanitization_rules": {
     "remove_personal_identifiers": true,
     "remove_sensitive_info": true,
     "remove_profanity": true,
     "remove_timestamps": true
   },
-  "audit": {
-    "log_all_access": true,
-    "log_all_writes": true,
-    "log_all_consents": true,
-    "log_validation_failures": true,
-    "log_sanitization": true,
-    "max_log_size": 10000,
-    "log_rotation": true,
-    "export_format": "json"
-  },
   "consent": {
     "require_first_time_consent": true,
     "remember_consent": true,
-    "allow_consent_revocation": true,
-    "consent_expiration_days": null
-  },
-  "security": {
-    "enable_encryption": false,
-    "encryption_algorithm": "AES-256",
-    "enable_backup": true,
-    "backup_retention_days": 30,
-    "max_failed_attempts": 5,
-    "lockout_duration_minutes": 15
+    "allow_consent_revocation": true
   },
   "privacy": {
-    "data_retention_policy": "indefinite",
-    "automatic_cleanup": true,
-    "cleanup_threshold_percentage": 90,
     "allow_data_export": true,
     "allow_data_deletion": true
-  },
-  "platform_integration": {
-    "require_platform_hooks": true,
-    "platform_enforced_readonly": true,
-    "platform_enforced_consent": true,
-    "platform_audit_integration": true
   }
 }
