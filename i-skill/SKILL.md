@@ -1,232 +1,186 @@
 ---
 name: "i-skill"
-description: "Generates and maintains a dynamic personal profile (myself.md) by analyzing user conversations. Provides persistent context for personalized responses. Integration: other skills can declare dependency on i-skill to access user profile."
-version: "1.0.0"
-tags: ["profile", "personal", "analysis", "conversation", "user-model", "personalization", "context"]
-
-# 新增命令定义
-activation_commands:
-  - "激活个性化"
-  - "Activate personalization"
-  - "开启个性化"
-
-deactivation_commands:
-  - "暂停个性化"
-  - "Pause personalization"
-
-# Integration Support
-integration_type: "persistent_context"
-provides_context: "user_profile"
-activation_mode: "manual"  # Changed from automatic_on_dependency to manual
+description: "Generates personalized interaction guides by analyzing user conversations. Invoke when users seek personalized responses, want AI assistants to better understand their preferences, or need customized service adaptation. Activation: '激活个性化' or 'personalization'."
+version: "2.0.0"
+tags: ["personalization", "user-profile", "ai-assistant", "conversation-analysis"]
+activation_mode: "manual"
 ---
 
-# i-skill - Personal Profile Generator
+# i-skill - Personalized Assistant Interaction Guide
 
-Analyzes user conversations to generate and maintain a dynamic personal profile for personalized responses.
+Analyzes user conversations to generate personalized interaction guidelines, enabling AI assistants to provide customized service based on user preferences and communication patterns.
 
 ## Core Functionality
 
-### Data Collection
-- Analyzes conversations for topics, communication style, preferences
-- Records interests, expertise level, emotional patterns
-- Maintains minimal evidence for each profile entry
+### Wisdom-Level Iterative Profiling
+**Wisdom-Level Iterative User Profiling** - AI analyzes user conversations like an experienced sage, deeply understanding users through iterative optimization:
 
-### Profile Generation
-- Creates structured profile in `./user_data/myself.md`
-- Tracks activation state in `./user_data/i-skill_state.json`
-- Updates profile when new information emerges
+#### Iterative Optimization Mechanism
+- **Re-examination instead of addition**: Each activation combines existing profile with new conversations for AI model input
+- **Wisdom-level integration**: AI model regenerates more accurate user profiles based on complete conversation history
+- **Content concentration**: Profile content is continuously refined, avoiding infinite expansion
 
-### Context Provision
-- Provides user profile as persistent context
-- Enables other skills to access user characteristics
-- Supports personalized response generation
+#### Deep Psychological Insights
+- **Inner world analysis**: Penetrates conversation surfaces to understand deep motivations, emotional patterns, and values
+- **Growth trajectory tracking**: Identifies user's cognitive development and intellectual maturity from conversation evolution
+- **Personality characterization**: Based on long-term interactions, depicts user's unique personality traits and thinking habits
 
-## When to Invoke
+#### Time-Accumulated Wisdom
+- **Historical dimension integration**: Integrates new conversations into historical context to observe continuous evolution of user thinking
+- **Pattern recognition optimization**: Identifies more stable behavioral patterns and thinking habits based on richer data
+- **Profile accuracy improvement**: Each iteration makes the user profile more accurate and profound
 
-### Manual Activation Only
-**User must explicitly activate i-skill before any profile access:**
+### Personalized Service Delivery
+- **Persistent context**: `myself.md` provides iteratively optimized wisdom-level profiles as persistent context
+- **Enhanced responses**: AI assistants provide personalized responses based on deep user understanding
+- **User control**: Manual activation required, users maintain full control over personalization state
 
-1. **User initiates activation**:
-   - User runs command: "Activate personalization" or similar
-   - i-skill loads and becomes active
-   - Profile is available for current conversation
+## Usage
 
-2. **For dependent skills**:
-   - If a skill has `depends: - i-skill`, it indicates it can use profile data
-   - BUT: i-skill must already be active via user activation
-   - If i-skill is not active, dependent skill cannot access profile
+### Activation Commands
+- **Activate**: "Activate personalization", "Enable personalization"
+- **View profile**: "View my profile", "Show my profile"
+- **Pause**: "Pause personalization", "Stop personalization"
+- **Reset**: "Reset profile", "Delete profile"
+- **Update profile**: "帮我更新档案", "更新档案", "Refresh my profile", "Update my personalization"
 
-### User Commands
-- "Activate personalization" - Enable profile generation and access
-- "View my profile" - Display current profile
-- "Pause personalization" - Temporarily disable
-- "Resume personalization" - Re-enable
-- "Reset profile" - Clear all profile data
+### Profile Update Timing
 
-## Integration with Other Skills
+**Automatic Updates**:
+- Profile is automatically updated when i-skill is activated
+- Each activation triggers a wisdom-level re-examination of the complete conversation history
+- The profile evolves through iterative optimization with each activation
 
-### Declare Dependency (Optional)
-Other skills can indicate they support profile integration:
+**Manual Update Commands**:
+Users can also manually request profile updates using commands like:
+- "帮我更新档案" (Help me update my profile)
+- "更新档案" (Update profile)
+- "Refresh my profile"
+- "Update my personalization"
 
-```yaml
-depends:
-  - i-skill
-```
+**Update Mechanism**:
+- Manual update commands trigger the same wisdom-level re-examination process as activation
+- Profile content is refined and concentrated, not expanded indefinitely
+- Each update generates a more accurate and profound user characterization
 
-**Important**: This only indicates compatibility. i-skill must be manually activated by user first.
+### Iterative Workflow
+**Wisdom-Level Iterative Optimization Process** - Each activation triggers complete re-examination:
 
-### Profile Access Flow
-1. **User activates i-skill** (required first step)
-2. **Dependent skill loads** (with dependency declared)
-3. **Profile becomes available** as read-only context
-4. **User is notified**: "Profile available for [Skill Name]"
+1. **User activation**: Manually activate i-skill
+2. **Sage re-examination**: Combine existing `myself.md` content + new conversations for AI model input
+3. **Profile optimization**: AI model generates more accurate user profiles based on complete conversation history
+4. **Content update**: Replace existing content with optimized profile (not additive)
+5. **Service delivery**: Provide personalized service based on latest profile
+6. **Continuous optimization**: Each activation triggers new round of wisdom-level re-examination
+
+### Anti-Expansion Mechanism
+- **Content concentration**: AI model concentrates complex information into profound insights, not simple additions
+- **Re-generation**: Complete re-generation each time, avoiding infinite content expansion
+- **Quality priority**: Focus on profile quality rather than content quantity, ensuring concise accuracy
 
 ### Profile Structure
-Profile is stored in `./user_data/myself.md` with minimal evidence format.
+Personal description stored in `./user_data/myself.md` is **iteratively optimized wisdom-level profile**:
 
-## Data Storage
+#### Iterative Optimization Features
+- **Non-expansive growth**: Content continuously refined through re-examination, not simple addition
+- **Wisdom-level integration**: Complete re-generation based on full history with each activation
+- **Accuracy improvement**: Profile becomes increasingly accurate as conversations accumulate
 
-### Files
-- `./user_data/myself.md`: User profile (read-only for dependent skills)
-- `./user_data/i-skill_state.json`: Activation state and statistics
+#### Wisdom-Level Insight Dimensions
+- **Deep psychological profile**: Understanding of inner world based on iterative analysis
+- **Growth journey**: Sage-level observation of user's intellectual evolution
+- **Personality traits**: Stable characteristics confirmed through multiple re-examinations
 
-### State Format
-```json
-{
-  "last_update_time": "2025-03-20T10:30:00",
-  "conversation_count": 3,
-  "personalization_active": false,
-  "activation_threshold": 3,
-  "topics_discussed": ["technology", "NBA", "work"]
-}
+#### Anti-Expansion Mechanism
+- **Content concentration**: AI model concentrates complex information into profound insights
+- **Re-generation**: Complete re-generation each time, not incremental addition
+- **Quality priority**: Focus on profile quality rather than content quantity
+
+## Files
+
+### Core Files
+- **`./user_data/myself.md`** - Personalized interaction guide
+- **`./user_data/i-skill_state.json`** - Activation state and statistics
+- **`./user_data/access_log.json`** - Service access logs
+
+All file operations are handled securely through `scripts/myself_manager.py`.
+
+## Security & Privacy
+
+### User Control
+- **Manual activation required** - No automatic data collection
+- **Full user control** - Pause/resume/delete anytime
+- **Transparent operation** - View profile and access logs
+
+### Data Protection
+- **Privacy-focused**: Analyzes conversations only when active
+- **Abstracted insights**: Stores behavioral patterns, not raw content
+- **No external sharing**: Data never leaves user's device
+- **Secure validation**: Evidence length limits, sensitive data filtering
+
+### Security Implementation
+- **Path validation**: Prevents directory traversal attacks
+- **File permissions**: Secure file and directory permissions (600/700)
+- **Input sanitization**: Comprehensive validation of all inputs
+- **Error handling**: Secure error messages without information leakage
+- **Configuration security**: Validated configuration loading with size limits
+
+## Examples
+
+### Activation Flow
+1. **User**: "Activate personalization"
+2. **System**: "Personalization activated. Profile generation started."
+3. **User**: "What do you know about me?"
+4. **System**: (Uses profile data) "Based on our conversations, you're interested in..."
+
+### Deactivation Flow
+1. **User**: "Pause personalization"
+2. **System**: "Personalization paused. Profile data not in use."
+
+### Best Practices
+- **Be natural**: Have normal conversations, don't try to "train" i-skill
+- **Be consistent**: Your communication style will be learned better
+- **Share interests**: Talk about topics you care about
+- **Give feedback**: If responses don't match preferences, provide guidance
+
+### Iterative Profiling Examples
+
+**Wisdom-Level Iterative Process**:
+```
+Activation 1: Generate basic profile based on initial conversations
+Activation 2: Re-examine basic profile + new conversations, generate deeper profile
+Activation N: Generate highly accurate wisdom-level profile based on complete history
 ```
 
-## Security Implementation
+**Anti-Expansion Mechanism Examples**:
+```
+❌ Wrong approach: Profile content keeps adding new paragraphs
+✅ Correct approach: Each time re-generate more refined and accurate complete profile
 
-### Skill-Level Security Controls
-
-**Data Validation**
-- Evidence length validation (≤ 20 characters)
-- Personal identifier detection and removal
-- Sensitive information detection and removal
-- Profanity filtering
-- Topic and evidence count limits
-
-**Access Control**
-- Profile is read-only for dependent skills
-- No direct file modification by dependent skills
-- All access attempts are logged
-
-**User Consent Model**
-- **Explicit activation required**: User must manually activate i-skill
-- **No automatic profile access**: Dependent skills cannot trigger activation
-- **User control**: Users can pause/resume/delete anytime
-
-### Platform Recommendations (Optional)
-For enhanced security, platforms can implement:
-
-1. **File access monitoring** - Log all profile access attempts
-2. **Consent UI** - Clear indication when profile is active
-3. **Audit trails** - Track profile usage by skills
-
-### Security Checklist
-
-Before installation:
-- [ ] Understand that user must manually activate i-skill
-- [ ] Review data collection and storage practices
-- [ ] Confirm platform supports basic file operations
-
-During operation:
-- [ ] User explicitly activates personalization
-- [ ] All profile access is logged
-- [ ] User can pause/resume/delete profile
-- [ ] Profile is read-only for dependent skills
-
-## Usage Examples
-
-### For AI Agents
-
-**Profile generation (when i-skill is active):**
-```python
-# Analyze conversation for profile updates
-if i_skill_active:
-    topics = extract_topics(conversation)
-    for topic in topics:
-        if is_new_information(topic):
-            update_profile(topic, minimal_evidence=True)
+Example evolution:
+v1: "User is interested in technology"
+v2: "User has innovative thinking, enjoys exploring technology boundaries"  
+v3: "User demonstrates systematic thinking ability, shows deep insight in technology exploration"
 ```
 
-**Profile access (for dependent skills):**
-```python
-# Check if i-skill is active before accessing profile
-if i_skill_active:
-    profile = read_profile()
-    # Use profile data for personalization
-else:
-    # Handle case where profile is not available
-    use_default_behavior()
+**Wisdom-Level Output Example**:
+```markdown
+# Deep User Profile - [Username]
+
+## Wisdom-Level Insights (Based on [number] iterative optimizations)
+Through our [number] deep conversations, my understanding of you continues to deepen...
+
+## Iterative Optimization Trajectory
+From initial acquaintance to current deep understanding, your profile has undergone [number] wisdom-level re-examinations...
+
+## Current Accurate Characterization
+Based on wisdom-level analysis of complete conversation history, you demonstrate [specific characteristics]...
 ```
 
-### For Users
+## Design Notes
 
-**Activation flow:**
-1. User: "Activate personalization"
-2. System: "Personalization activated. Profile will be generated from this conversation."
-3. User: "What do you know about me?"
-4. System: (Uses profile data) "Based on our conversations, you're interested in..."
-
-**Deactivation flow:**
-1. User: "Pause personalization"
-2. System: "Personalization paused. Profile data will not be used."
-3. User: "What do you know about me?"
-4. System: "Personalization is currently paused. No profile data is being used."
-
-## Privacy and Data Handling
-
-### Data Collection Scope
-- **Only when active**: Analyzes conversations only when i-skill is manually activated
-- **Minimal evidence**: Stores 1-2 brief keywords per topic (max 20 characters)
-- **User control**: Users can view, edit, delete profile anytime
-- **No external sharing**: Profile never leaves user's device
-
-### Evidence Storage Policy
-**What is stored:**
-- Brief keywords: "AI", "machine learning", "NBA"
-- No full sentences or contextual information
-- No personal identifiers or sensitive data
-
-**What is NOT stored:**
-- Full conversation text
-- Personal information (names, emails, etc.)
-- Timestamps or location data
-
-## Additional Resources
-
-- **User Guide**: [references/USER_GUIDE.md](references/USER_GUIDE.md) - Detailed user instructions
-- **Implementation Details**: Technical implementation notes
-
-## Key Design Changes
-
-### Resolved Issues from Clawhub Review:
-
-1. **✅ Fixed activation vs consent contradiction**:
-   - Changed from `automatic_on_dependency` to `manual` activation
-   - User must explicitly activate i-skill before any profile access
-   - Dependent skills cannot trigger automatic activation
-
-2. **✅ Simplified platform dependencies**:
-   - Removed mandatory platform-level security requirements
-   - Skill implements basic security controls internally
-   - Platform enhancements are optional recommendations
-
-3. **✅ Clearer user consent model**:
-   - Explicit user activation required
-   - No automatic data collection
-   - User has full control over activation state
-
-4. **✅ Reduced risk profile**:
-   - No automatic activation reduces privilege escalation risk
-   - Clear activation flow prevents unexpected behavior
-   - User maintains control at all times
-
-This design ensures i-skill functions safely even on platforms without advanced security features, while maintaining the core personalization functionality.
+### Key Features
+- **Manual activation only** - User control maintained
+- **Platform independent** - Works with basic file operations
+- **Privacy focused** - No automatic data collection
+- **Simple implementation** - Minimal dependencies required
