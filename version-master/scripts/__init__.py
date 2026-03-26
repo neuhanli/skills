@@ -1,9 +1,8 @@
 """
-脚本模块
-
-提供技能启动和测试脚本。
+Version-Master 脚本模块
+提供核心版本管理功能接口
 """
 
-from .main import main
+from .version_tool import VersionMaster
 
-__all__ = ['main']
+__all__ = ['VersionMaster']
