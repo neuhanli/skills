@@ -1,23 +1,13 @@
-# Smart Charts Skill 依赖库
+# Smart Charts - 依赖声明
+# 安装方式: pip install -r requirements.txt
 
-# 数据处理和分析
+# 核心依赖 (必需)
 pandas>=1.5.0
 numpy>=1.21.0
+openpyxl>=3.0.0
 
-# 文件格式支持
-openpyxl>=3.0.0  # Excel文件处理
-python-docx>=0.8.0  # Word文档处理
-
-# 数据库支持
-mysql-connector-python>=8.0.0  # MySQL数据库连接
-
-# 数据可视化库
-pyecharts>=2.0.0  # ECharts的Python接口
-
-# 其他工具库
-pathlib2>=2.3.0  # 路径处理
-python-dateutil>=2.8.0  # 日期处理
-
-# 可选：用于更复杂的自然语言处理（未来扩展）
-# nltk>=3.6.0
-# jieba>=0.42.0
+# 可选依赖 (用于模板功能)
+# PyPDF2: PDF 文档提取
+# python-docx: Word 文档处理
+PyPDF2>=3.0.0
+python-docx>=0.8.0
