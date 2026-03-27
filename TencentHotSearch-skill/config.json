@@ -1,5 +1,0 @@
-{
-  "secret_id": "YOUR_TENCENT_CLOUD_SECRET_ID",
-  "secret_key": "YOUR_TENCENT_CLOUD_SECRET_KEY",
-  "output_dir": "./output"
-}
